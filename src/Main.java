@@ -49,6 +49,15 @@ public class Main {
         Game foundGame = store.findGameByTitle("Valheim");
         if (foundGame != null) System.out.println("Found game: " + foundGame);
         else System.out.println("Game not found");
+
+        System.out.println();
+
+        List<String> titles = store.getAllGameTitles();
+
+        System.out.println("All game titles:");
+        for (String title : titles) {
+            System.out.println(title);
+        }
     }
 
     private static void tryBuy(StoreService store, User user, Game game) {

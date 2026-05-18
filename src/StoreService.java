@@ -42,4 +42,10 @@ public class StoreService {
                 .filter(game -> game.getGenre().equalsIgnoreCase(genre))
                 .collect(Collectors.toList());
     }
+
+    public List<String> getAllGameTitles() {
+        return catalogOfGames.stream()
+                .map(game -> game.getTitle())
+                .collect(Collectors.toList());
+    }
 }
