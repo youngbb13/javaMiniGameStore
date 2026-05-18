@@ -1,9 +1,11 @@
-public class DigitalGame implements Game {
-    private String title;
-    private double price;
-    private String genre;
+import java.math.BigDecimal;
 
-    public DigitalGame(String title, double price, String genre) {
+public class DigitalGame implements Game {
+    private final String title;
+    private final BigDecimal price;
+    private final String genre;
+
+    public DigitalGame(String title, BigDecimal price, String genre) {
         this.title = title;
         this.price = price;
         this.genre = genre;
@@ -15,7 +17,7 @@ public class DigitalGame implements Game {
     }
 
     @Override
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -31,5 +33,21 @@ public class DigitalGame implements Game {
     @Override
     public String toString() {
         return  title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        else if (o == null || getClass() != o.getClass())
+            return false;
+
+        DigitalGame game = (DigitalGame) o;
+        return title.equals(game.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return title.hashCode();
     }
 }
