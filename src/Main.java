@@ -9,38 +9,32 @@ public class Main {
 
         StoreService store = new StoreService();
 
-
         User dima = new User("kenzii" , new BigDecimal("1000"));
 
         System.out.println(dima.getNickname() + " balance is: " + dima.getBalance());
         System.out.println(dima.getNickname() + " owns: ");
         dima.showLibrary();
+
         System.out.println();
 
-        try {
-            store.buyGame(dima, gameCyberpunk);
-            System.out.println(dima.getNickname() + " bought successfully " + gameCyberpunk + " for " + gameCyberpunk.getPrice());
-        } catch (GameAlreadyOwnedException | NotEnoughMoneyException e) {
-            System.out.println(e.getMessage());
-        }
-
-        try {
-            store.buyGame(dima, gameValheim);
-            System.out.println(dima.getNickname() + " bought successfully " + gameValheim + " for " + gameValheim.getPrice());
-        } catch (GameAlreadyOwnedException | NotEnoughMoneyException e) {
-            System.out.println(e.getMessage());
-        }
-
-        try {
-            store.buyGame(dima, gameCS2);
-            System.out.println(dima.getNickname() + " bought successfully " + gameCS2 + " for " + gameCS2.getPrice());
-        } catch (GameAlreadyOwnedException | NotEnoughMoneyException e) {
-            System.out.println(e.getMessage());
-        }
+        tryBuy(store, dima, gameCS2);
+        tryBuy(store, dima, gameRDR2);
+        tryBuy(store, dima, gameValheim);
 
         System.out.println(dima.getNickname() + " owns: ");
         dima.showLibrary();
+
         System.out.println();
         System.out.println(dima.getNickname() + " balance is: " + dima.getBalance());
+    }
+
+    private static void tryBuy(StoreService store, User user, Game game) {
+        try {
+            store.buyGame(user, game);
+            System.out.println(user.getNickname() + " bought successfully " + game + " for " + game.getPrice());
+        }
+        catch (GameAlreadyOwnedException | NotEnoughMoneyException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
