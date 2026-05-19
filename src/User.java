@@ -40,7 +40,7 @@ public class User {
         System.out.println("You don`t own this game!");
     }
 
-    public void withdrawBalance(BigDecimal amount) throws NotEnoughMoneyException {
+    public synchronized void withdrawBalance(BigDecimal amount) throws NotEnoughMoneyException {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) throw new InvalidAmountException("Amount must be greater than 0");
 
         if (amount.compareTo(balance) > 0) throw new NotEnoughMoneyException("Not enough money");

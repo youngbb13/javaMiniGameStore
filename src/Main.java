@@ -1,12 +1,14 @@
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-
-        Game gameCyberpunk = new DigitalGame("Cyberpunk 2077", new BigDecimal("199.99"), "RPG");
-        Game gameCS2 = new DigitalGame("Counter-Strike 2", new BigDecimal("29.99"), "FPS");
+        Game gameCyberpunk = new DigitalGame("Cyberpunk 2077", new BigDecimal("159.99"), "RPG");
+        Game gameCS2 = new DigitalGame("Counter-Strike 2", new BigDecimal("39.99"), "FPS");
         Game gameRDR2 = new DigitalGame("Red Dead Redemption 2", new BigDecimal("199.99"), "Action-Adventure");
         Game gameValheim = new DigitalGame("Valheim", new BigDecimal("70.99"), "Survival");
 
@@ -18,6 +20,7 @@ public class Main {
         store.addGameToCatalog(gameValheim);
 
         User dima = new User("kenzii" , new BigDecimal("1000"));
+        User valentyn = new User("Black_Ghost", new BigDecimal("200"));
 
         System.out.println(dima.getNickname() + " balance is: " + dima.getBalance());
         System.out.println(dima.getNickname() + " owns: ");
@@ -78,9 +81,25 @@ public class Main {
         Game firstGame = library.getFirst();
         System.out.println(firstGame);
 
-        GameDownloader downloader = new GameDownloader(gameCyberpunk);
-        Thread thread = new Thread(downloader);
-        thread.start();
+        System.out.println();
+
+        System.out.println("before " + valentyn.getBalance());
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        executor.submit(() -> {
+            tryBuy(store, valentyn, gameCS2);
+        });
+        executor.submit(() -> {
+            tryBuy(store, valentyn, gameValheim);
+        });
+        executor.shutdown();
+
+        try {
+            executor.awaitTermination(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            System.out.println("Main thread interrupted!");
+        }
+
+        System.out.println("after " + valentyn.getBalance());
     }
 
     private static void tryBuy(StoreService store, User user, Game game) {
