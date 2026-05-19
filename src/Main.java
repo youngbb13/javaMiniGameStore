@@ -1,5 +1,6 @@
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
@@ -46,18 +47,40 @@ public class Main {
         }
         System.out.println();
 
-        Game foundGame = store.findGameByTitle("Valheim");
-        if (foundGame != null) System.out.println("Found game: " + foundGame);
-        else System.out.println("Game not found");
+        Optional<Game> foundGame = store.findGameByTitle("Valheim");
+        foundGame.ifPresentOrElse(game -> System.out.println("Found game: " + game),
+                () -> System.out.println("Game not found"));
 
         System.out.println();
 
         List<String> titles = store.getAllGameTitles();
-
         System.out.println("All game titles:");
         for (String title : titles) {
             System.out.println(title);
         }
+
+        System.out.println();
+
+        List<Game> sortedGames = store.sortGamesByPrice();
+        System.out.println("Sorted games(growing):");
+        for (Game game : sortedGames) {
+            System.out.println(game.getTitle() + " - " + game.getPrice());
+        }
+
+        GameLibrary<Game> library = new GameLibrary<>();
+        System.out.println();
+        library.add(gameCyberpunk);
+        library.add(gameRDR2);
+        library.showAllGames();
+
+        System.out.println();
+
+        Game firstGame = library.getFirst();
+        System.out.println(firstGame);
+
+        GameDownloader downloader = new GameDownloader(gameCyberpunk);
+        Thread thread = new Thread(downloader);
+        thread.start();
     }
 
     private static void tryBuy(StoreService store, User user, Game game) {

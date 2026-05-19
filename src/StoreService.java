@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class StoreService {
@@ -12,7 +14,7 @@ public class StoreService {
         user.addGame(game);
     }
 
-    private List<Game> catalogOfGames = new ArrayList<>();
+    private final List<Game> catalogOfGames = new ArrayList<>();
 
     public void addGameToCatalog(Game game) {
         catalogOfGames.add(game);
@@ -30,11 +32,10 @@ public class StoreService {
                 .forEach(game -> System.out.println(game.getTitle()));
     }
 
-    public Game findGameByTitle(String title) {
+    public Optional<Game> findGameByTitle(String title) {
         return catalogOfGames.stream()
                 .filter(game -> game.getTitle().equalsIgnoreCase(title))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     public List<Game> findGamesByGenre(String genre) {
@@ -45,7 +46,13 @@ public class StoreService {
 
     public List<String> getAllGameTitles() {
         return catalogOfGames.stream()
-                .map(game -> game.getTitle())
+                .map(Game::getTitle)
+                .collect(Collectors.toList());
+    }
+
+    public List<Game> sortGamesByPrice() {
+        return catalogOfGames.stream()
+                .sorted(Comparator.comparing(Game::getPrice))
                 .collect(Collectors.toList());
     }
 }
