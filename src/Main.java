@@ -100,6 +100,11 @@ public class Main {
         }
 
         System.out.println("after " + valentyn.getBalance());
+
+        GameDto dto = GameMapper.toDto(gameCyberpunk);
+        System.out.println(dto.getTitle());
+        System.out.println(dto.getPrice());
+        System.out.println(dto.getGenre());
     }
 
     private static void tryBuy(StoreService store, User user, Game game) {
