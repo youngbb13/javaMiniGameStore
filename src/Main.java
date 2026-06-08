@@ -105,6 +105,11 @@ public class Main {
         System.out.println(dto.getTitle());
         System.out.println(dto.getPrice());
         System.out.println(dto.getGenre());
+
+        LibraryFileService fileService = new LibraryFileService();
+        fileService.saveLibrary(dima, "library.txt");
+
+
     }
 
     private static void tryBuy(StoreService store, User user, Game game) {

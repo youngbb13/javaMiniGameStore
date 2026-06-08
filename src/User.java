@@ -12,6 +12,10 @@ public class User {
         this.balance = balance;
     }
 
+    public Set<Game> getGamesLibrary() {
+        return gamesLibrary;
+    }
+
     public String getNickname() {
         return nickname;
     }
