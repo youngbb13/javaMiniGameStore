@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -109,7 +110,10 @@ public class Main {
         LibraryFileService fileService = new LibraryFileService();
         fileService.saveLibrary(dima, "library.txt");
 
-
+        HashMap<String, Game> gameMap = new HashMap<>();
+        gameMap.put("CS2", gameCS2);
+        System.out.println(gameMap.get("CS2"));
+        System.out.println(gameMap.get("Minecraft"));
     }
 
     private static void tryBuy(StoreService store, User user, Game game) {
