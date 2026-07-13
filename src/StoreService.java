@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StoreService {
@@ -15,8 +13,10 @@ public class StoreService {
     }
 
     private final List<Game> catalogOfGames = new ArrayList<>();
+    private final Map<String, Game> gamesByTitle = new HashMap<>();
 
     public void addGameToCatalog(Game game) {
+        gamesByTitle.put(game.getTitle(), game);
         catalogOfGames.add(game);
     }
 
@@ -54,5 +54,21 @@ public class StoreService {
         return catalogOfGames.stream()
                 .sorted(Comparator.comparing(Game::getPrice))
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Game> findGameByTitleFast(String title) {
+        return Optional.ofNullable(gamesByTitle.get(title));
+    }
+
+    public int countGamesMoreExpensiveThan(BigDecimal price) {
+        return (int) catalogOfGames.stream()
+                .filter(game -> game.getPrice().compareTo(price) > 0)
+                .count();
+    }
+
+    public Optional<Game> getMostExpensiveGame() {
+        return catalogOfGames.stream()
+                .filter(game -> game.getPrice() != null)
+                .max(Comparator.comparing(Game::getPrice));
     }
 }
