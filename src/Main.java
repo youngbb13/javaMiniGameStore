@@ -21,6 +21,11 @@ public class Main {
         User dima = new User("kenzii" , new BigDecimal("1000"));
         User valentyn = new User("Black_Ghost", new BigDecimal("200"));
 
+        UserService userService = new UserService();
+        userService.tryBuy(store, dima, gameCS2);
+        userService.tryBuy(store, dima, gameRDR2);
+        userService.tryBuy(store, dima, gameValheim);
+
         System.out.println(dima.getNickname() + " balance is: " + dima.getBalance());
         System.out.println(dima.getNickname() + " owns: ");
         dima.showLibrary();
@@ -30,9 +35,6 @@ public class Main {
         store.showCatalog();
         System.out.println();
 
-        tryBuy(store, dima, gameCS2);
-        tryBuy(store, dima, gameRDR2);
-        tryBuy(store, dima, gameValheim);
         System.out.println();
 
         System.out.println(dima.getNickname() + " owns: ");
@@ -85,10 +87,10 @@ public class Main {
         System.out.println("before " + valentyn.getBalance());
         ExecutorService executor = Executors.newFixedThreadPool(2);
         executor.submit(() -> {
-            tryBuy(store, valentyn, gameCS2);
+            userService.tryBuy(store, valentyn, gameCS2);
         });
         executor.submit(() -> {
-            tryBuy(store, valentyn, gameValheim);
+            userService.tryBuy(store, valentyn, gameValheim);
         });
         executor.shutdown();
 
@@ -119,13 +121,5 @@ public class Main {
         }
     }
 
-    private static void tryBuy(StoreService store, User user, Game game) {
-        try {
-            store.buyGame(user, game);
-            System.out.println(user.getNickname() + " bought successfully " + game + " for " + game.getPrice());
-        }
-        catch (GameAlreadyOwnedException | NotEnoughMoneyException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+
 }
