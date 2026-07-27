@@ -1,7 +1,5 @@
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -114,6 +112,11 @@ public class Main {
         gameMap.put("CS2", gameCS2);
         System.out.println(gameMap.get("CS2"));
         System.out.println(gameMap.get("Minecraft"));
+
+        Map<String, List<Game>> gamesByGenre = store.getGamesGroupedByGenre();
+        for (Map.Entry<String, List<Game>> entry : gamesByGenre.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
     }
 
     private static void tryBuy(StoreService store, User user, Game game) {

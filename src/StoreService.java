@@ -71,4 +71,14 @@ public class StoreService {
                 .filter(game -> game.getPrice() != null)
                 .max(Comparator.comparing(Game::getPrice));
     }
+
+    public Map<String, Long> countGamesByGenre() {
+        return catalogOfGames.stream()
+                .collect(Collectors.groupingBy(Game::getGenre, Collectors.counting()));
+    }
+
+    public Map<String, List<Game>> getGamesGroupedByGenre() {
+        return catalogOfGames.stream()
+                .collect(Collectors.groupingBy(Game::getGenre));
+    }
 }
