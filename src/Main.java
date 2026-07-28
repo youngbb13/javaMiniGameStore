@@ -119,7 +119,17 @@ public class Main {
         for (Map.Entry<Genre, List<Game>> entry : gamesByGenre.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
+
+        // Ігри дорожчі за 100
+        List<Game> expensive = store.findGamesByCondition(game -> game.getPrice().compareTo(new BigDecimal("100")) > 0);
+        System.out.println(expensive);
+
+        // Ігри жанру FPS
+        List<Game> fps = store.findGamesByCondition(game -> game.getGenre() == Genre.FPS);
+        System.out.println(fps);
+
+        // Ігри, назва яких починається на "C"
+        List<Game> startsWithC = store.findGamesByCondition(game -> game.getTitle().startsWith("C"));
+        System.out.println(startsWithC);
     }
-
-
 }

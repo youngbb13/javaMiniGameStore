@@ -1,5 +1,6 @@
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class StoreService {
@@ -92,5 +93,17 @@ public class StoreService {
         return catalogOfGames.stream()
                 .sorted(Comparator.comparing(Game::getPrice).reversed())
                 .collect(Collectors.toList());
+    }
+
+    public List<Game> findGamesByCondition(Predicate<Game> condition) {
+        return catalogOfGames.stream()
+                .filter(condition)
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Game> findCheapestGameByGenre(Genre genre) {
+        return catalogOfGames.stream()
+                .filter(game -> game.getGenre() != genre)
+                .min(Comparator.comparing(Game::getPrice));
     }
 }
