@@ -3,9 +3,9 @@ import java.math.BigDecimal;
 public class GameDto {
     private String title;
     private BigDecimal price;
-    private String genre;
+    private Genre genre;
 
-    public GameDto(String title, BigDecimal price, String genre) {
+    public GameDto(String title, BigDecimal price, Genre genre) {
         this.title = title;
         this.price = price;
         this.genre = genre;
@@ -19,7 +19,7 @@ public class GameDto {
         return price;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 }

@@ -81,4 +81,16 @@ public class StoreService {
         return catalogOfGames.stream()
                 .collect(Collectors.groupingBy(Game::getGenre));
     }
+
+    public List<Game> sortGamesByTitle() {
+        return catalogOfGames.stream()
+                .sorted(Comparator.comparing(Game::getTitle))
+                .collect(Collectors.toList());
+    }
+
+    public List<Game> sortGamesByPriceDescending() {
+        return catalogOfGames.stream()
+                .sorted(Comparator.comparing(Game::getPrice).reversed())
+                .collect(Collectors.toList());
+    }
 }

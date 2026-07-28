@@ -1,6 +1,6 @@
 import java.math.BigDecimal;
 
-public class DigitalGame implements Game {
+public class DigitalGame implements Game, Comparable<Game> {
     private final String title;
     private final BigDecimal price;
     private final Genre genre;
@@ -49,5 +49,10 @@ public class DigitalGame implements Game {
     @Override
     public int hashCode() {
         return title.hashCode();
+    }
+
+    @Override
+    public int compareTo(Game o) {
+        return this.getPrice().compareTo(o.getPrice());
     }
 }
