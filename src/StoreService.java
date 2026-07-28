@@ -106,4 +106,16 @@ public class StoreService {
                 .filter(game -> game.getGenre() != genre)
                 .min(Comparator.comparing(Game::getPrice));
     }
+
+    public Optional<Game> findGameCheaperThan(String title, BigDecimal maxPrice) {
+        return catalogOfGames.stream()
+                .filter(game -> game.getTitle().equalsIgnoreCase(title) && game.getPrice().compareTo(maxPrice) <0)
+                .findFirst();
+    }
+
+    public OptionalDouble getAveragePriceByGenre(Genre genre) {
+        return catalogOfGames.stream()
+                .filter(game -> game.getGenre().equals(genre))
+                .mapToDouble(game -> game.getPrice().doubleValue()).average();
+    }
 }
