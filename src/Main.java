@@ -6,10 +6,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        Game gameCyberpunk = new DigitalGame("Cyberpunk 2077", new BigDecimal("159.99"), "RPG");
-        Game gameCS2 = new DigitalGame("Counter-Strike 2", new BigDecimal("39.99"), "FPS");
-        Game gameRDR2 = new DigitalGame("Red Dead Redemption 2", new BigDecimal("199.99"), "Action-Adventure");
-        Game gameValheim = new DigitalGame("Valheim", new BigDecimal("70.99"), "Survival");
+        Game gameCyberpunk = new DigitalGame("Cyberpunk 2077", new BigDecimal("159.99"), Genre.RPG);
+        Game gameCS2 = new DigitalGame("Counter-Strike 2", new BigDecimal("39.99"), Genre.FPS);
+        Game gameRDR2 = new DigitalGame("Red Dead Redemption 2", new BigDecimal("199.99"), Genre.ACTION_ADVENTURE);
+        Game gameValheim = new DigitalGame("Valheim", new BigDecimal("70.99"), Genre.SURVIVAL);
 
         StoreService store = new StoreService();
 
@@ -43,7 +43,7 @@ public class Main {
         System.out.println(dima.getNickname() + " balance is: " + dima.getBalance());
         System.out.println();
 
-        List<Game> fpsGames = store.findGamesByGenre("FPS");
+        List<Game> fpsGames = store.findGamesByGenre(Genre.FPS);
 
         System.out.println("FPS games:");
         for (Game game : fpsGames) {
@@ -115,8 +115,8 @@ public class Main {
         System.out.println(gameMap.get("CS2"));
         System.out.println(gameMap.get("Minecraft"));
 
-        Map<String, List<Game>> gamesByGenre = store.getGamesGroupedByGenre();
-        for (Map.Entry<String, List<Game>> entry : gamesByGenre.entrySet()) {
+        Map<Genre, List<Game>> gamesByGenre = store.getGamesGroupedByGenre();
+        for (Map.Entry<Genre, List<Game>> entry : gamesByGenre.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
     }

@@ -2,7 +2,7 @@ import java.math.BigDecimal;
 
 public interface Game {
     String getTitle();
-    String getGenre();
+    Genre getGenre();
     BigDecimal getPrice();
     void play();
 }

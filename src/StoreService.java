@@ -26,9 +26,9 @@ public class StoreService {
         }
     }
 
-    public void showGamesByGenre(String genre) {
+    public void showGamesByGenre(Genre genre) {
         catalogOfGames.stream()
-                .filter(game -> game.getGenre().equalsIgnoreCase(genre))
+                .filter(game -> game.getGenre() == genre)
                 .forEach(game -> System.out.println(game.getTitle()));
     }
 
@@ -38,9 +38,9 @@ public class StoreService {
                 .findFirst();
     }
 
-    public List<Game> findGamesByGenre(String genre) {
+    public List<Game> findGamesByGenre(Genre genre) {
         return catalogOfGames.stream()
-                .filter(game -> game.getGenre().equalsIgnoreCase(genre))
+                .filter(game -> game.getGenre().equals(genre))
                 .collect(Collectors.toList());
     }
 
@@ -72,12 +72,12 @@ public class StoreService {
                 .max(Comparator.comparing(Game::getPrice));
     }
 
-    public Map<String, Long> countGamesByGenre() {
+    public Map<Genre, Long> countGamesByGenre() {
         return catalogOfGames.stream()
                 .collect(Collectors.groupingBy(Game::getGenre, Collectors.counting()));
     }
 
-    public Map<String, List<Game>> getGamesGroupedByGenre() {
+    public Map<Genre, List<Game>> getGamesGroupedByGenre() {
         return catalogOfGames.stream()
                 .collect(Collectors.groupingBy(Game::getGenre));
     }
