@@ -1,3 +1,5 @@
+package com.example.gamestore;
+
 import java.io.*;
 
 public class LibraryFileService {

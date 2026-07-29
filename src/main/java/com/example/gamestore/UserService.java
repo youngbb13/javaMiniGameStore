@@ -1,3 +1,5 @@
+package com.example.gamestore;
+
 public class UserService {
     public void tryBuy(StoreService store, User user, Game game) {
         try {

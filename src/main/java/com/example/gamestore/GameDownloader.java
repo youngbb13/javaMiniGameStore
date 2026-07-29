@@ -1,3 +1,5 @@
+package com.example.gamestore;
+
 public class GameDownloader implements Runnable {
     private Game game;
 

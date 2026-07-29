@@ -1,3 +1,5 @@
+package com.example.gamestore;
+
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ExecutorService;

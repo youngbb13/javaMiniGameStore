@@ -1,3 +1,5 @@
+package com.example.gamestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
