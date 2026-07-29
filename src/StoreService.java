@@ -27,12 +27,6 @@ public class StoreService {
         }
     }
 
-    public void showGamesByGenre(Genre genre) {
-        catalogOfGames.stream()
-                .filter(game -> game.getGenre() == genre)
-                .forEach(game -> System.out.println(game.getTitle()));
-    }
-
     public Optional<Game> findGameByTitle(String title) {
         return catalogOfGames.stream()
                 .filter(game -> game.getTitle().equalsIgnoreCase(title))
@@ -101,21 +95,24 @@ public class StoreService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<Game> findCheapestGameByGenre(Genre genre) {
-        return catalogOfGames.stream()
-                .filter(game -> game.getGenre() != genre)
-                .min(Comparator.comparing(Game::getPrice));
-    }
-
-    public Optional<Game> findGameCheaperThan(String title, BigDecimal maxPrice) {
-        return catalogOfGames.stream()
-                .filter(game -> game.getTitle().equalsIgnoreCase(title) && game.getPrice().compareTo(maxPrice) <0)
-                .findFirst();
-    }
-
     public OptionalDouble getAveragePriceByGenre(Genre genre) {
         return catalogOfGames.stream()
                 .filter(game -> game.getGenre().equals(genre))
                 .mapToDouble(game -> game.getPrice().doubleValue()).average();
+    }
+
+    public List<Game> getTopMostExpensiveGames(int limit) {
+        return catalogOfGames.stream()
+                .sorted(Comparator.comparing(Game::getPrice).reversed())
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Genre> getMostPopularGenre() {
+        Map<Genre, Long> countByGenre = catalogOfGames.stream()
+                .collect(Collectors.groupingBy(Game::getGenre, Collectors.counting()));
+        return countByGenre.entrySet().stream()
+                .max(Comparator.comparingLong(Map.Entry::getValue))
+                .map(Map.Entry::getKey);
     }
 }
