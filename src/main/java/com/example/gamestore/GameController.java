@@ -35,4 +35,26 @@ public class GameController {
         storeService.addGameToCatalog(game);
         return game;
     }
+
+    @DeleteMapping("/games/{title}")
+    public ResponseEntity<Void> deleteGame(@PathVariable String title) {
+        boolean deleted = storeService.deleteGameByTitle(title);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/games/{title}")
+    public ResponseEntity<Game> updateGame(@PathVariable String title, @RequestBody DigitalGame updatedGame) {
+        return storeService.updateGame(title, updatedGame)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/buy")
+    public ResponseEntity<String> buyGame(@RequestParam String user, @RequestParam String gameTitle) {
+        return ResponseEntity.ok("WiP!");
+    }
 }

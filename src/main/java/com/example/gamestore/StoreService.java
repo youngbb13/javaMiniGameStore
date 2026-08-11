@@ -123,4 +123,19 @@ public class StoreService {
     public List<Game> getAllGames() {
         return catalogOfGames;
     }
+
+    public boolean deleteGameByTitle(String title) {
+        return catalogOfGames.removeIf(game -> game.getTitle().equalsIgnoreCase(title));
+    }
+
+    public Optional<Game> updateGame(String title, DigitalGame updatedGame) {
+        for (int i = 0; i < catalogOfGames.size(); i++) {
+            Game game = catalogOfGames.get(i);
+            if (game.getTitle().equalsIgnoreCase(title)) {
+                catalogOfGames.set(i, updatedGame);
+                return Optional.of(updatedGame);
+            }
+        }
+        return  Optional.empty();
+    }
 }
