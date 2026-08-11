@@ -119,4 +119,8 @@ public class StoreService {
                 .max(Comparator.comparingLong(Map.Entry::getValue))
                 .map(Map.Entry::getKey);
     }
+
+    public List<Game> getAllGames() {
+        return catalogOfGames;
+    }
 }
