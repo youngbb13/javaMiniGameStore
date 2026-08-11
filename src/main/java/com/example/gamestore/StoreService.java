@@ -1,10 +1,12 @@
 package com.example.gamestore;
 
+import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@Service
 public class StoreService {
     public void buyGame(User user, Game game) throws NotEnoughMoneyException, GameAlreadyOwnedException {
         if (user.ownsGame(game)) throw new GameAlreadyOwnedException("You already own " + game.getTitle());

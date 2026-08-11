@@ -23,10 +23,10 @@ public class Main {
         User dima = new User("kenzii" , new BigDecimal("1000"));
         User valentyn = new User("Black_Ghost", new BigDecimal("200"));
 
-        UserService userService = new UserService();
-        userService.tryBuy(store, dima, gameCS2);
-        userService.tryBuy(store, dima, gameRDR2);
-        userService.tryBuy(store, dima, gameValheim);
+//        UserService userService = new UserService();
+//        userService.tryBuy(store, dima, gameCS2);
+//        userService.tryBuy(store, dima, gameRDR2);
+//        userService.tryBuy(store, dima, gameValheim);
 
         System.out.println(dima.getNickname() + " balance is: " + dima.getBalance());
         System.out.println(dima.getNickname() + " owns: ");
@@ -86,21 +86,21 @@ public class Main {
 
         System.out.println();
 
-        System.out.println("before " + valentyn.getBalance());
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.submit(() -> {
-            userService.tryBuy(store, valentyn, gameCS2);
-        });
-        executor.submit(() -> {
-            userService.tryBuy(store, valentyn, gameValheim);
-        });
-        executor.shutdown();
+//        System.out.println("before " + valentyn.getBalance());
+//        ExecutorService executor = Executors.newFixedThreadPool(2);
+//        executor.submit(() -> {
+//            userService.tryBuy(store, valentyn, gameCS2);
+//        });
+//        executor.submit(() -> {
+//            userService.tryBuy(store, valentyn, gameValheim);
+//        });
+//        executor.shutdown();
 
-        try {
-            executor.awaitTermination(5, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            System.out.println("Main thread interrupted!");
-        }
+//        try {
+//            executor.awaitTermination(5, TimeUnit.SECONDS);
+//        } catch (InterruptedException e) {
+//            System.out.println("Main thread interrupted!");
+//        }
 
         System.out.println("after " + valentyn.getBalance());
 
