@@ -22,10 +22,12 @@ public class AppRunner implements CommandLineRunner {
         // Створюємо ігри
         Game cyberpunk = new DigitalGame("Cyberpunk 2077", new BigDecimal("159.99"), Genre.RPG);
         Game cs2 = new DigitalGame("Counter-Strike 2", new BigDecimal("39.99"), Genre.FPS);
+        Game eldenRing = new DigitalGame("Elden Ring", new BigDecimal("59.99"), Genre.RPG);
 
         // Додаємо в каталог
         storeService.addGameToCatalog(cyberpunk);
         storeService.addGameToCatalog(cs2);
+        storeService.addGameToCatalog(eldenRing);
 
         // Створюємо користувача
         User dima = new User("kenzii", new BigDecimal("1000"));

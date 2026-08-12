@@ -8,9 +8,11 @@ import java.util.List;
 @RestController
 public class GameController {
     private final StoreService storeService;
+    private final UserService userService;
 
-    public GameController(StoreService storeService) {
+    public GameController(StoreService storeService, UserService userService) {
         this.storeService = storeService;
+        this.userService = userService;
     }
 
     @GetMapping("/games")
@@ -53,8 +55,10 @@ public class GameController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/buy")
-    public ResponseEntity<String> buyGame(@RequestParam String user, @RequestParam String gameTitle) {
-        return ResponseEntity.ok("WiP!");
+    @GetMapping("/users/{nickname}/library")
+    public ResponseEntity<?> getUserLibrary(@PathVariable String nickname) {
+        return userService.findUserByNickname(nickname)
+                .map(user -> ResponseEntity.ok(user.getGamesLibrary()))
+                .orElse(ResponseEntity.notFound().build());
     }
 }

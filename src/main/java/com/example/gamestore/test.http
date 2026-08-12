@@ -1,9 +1,11 @@
-### Додати нову гру
-POST http://localhost:8080/games
-Content-Type: application/json
+#### Додати нову гру
+#POST http://localhost:8080/games
+#Content-Type: application/json
+#
+#{
+#  "title": "Elden Ring",
+#  "price": 59.99,
+#  "genre": "RPG"
+#}
 
-{
-  "title": "Elden Ring",
-  "price": 59.99,
-  "genre": "RPG"
-}
+POST http://localhost:8080/buy?nickname=kenzii&gameTitle=Elden%20Ring
