@@ -1,5 +1,7 @@
 package com.example.gamestore;
 
+import org.jspecify.annotations.NonNull;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.*;
@@ -8,13 +10,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class StoreService {
-    public void buyGame(User user, Game game) throws NotEnoughMoneyException, GameAlreadyOwnedException {
+    public boolean buyGame(User user, Game game) throws NotEnoughMoneyException, GameAlreadyOwnedException {
         if (user.ownsGame(game)) throw new GameAlreadyOwnedException("You already own " + game.getTitle());
 
         if (user.getBalance().compareTo(game.getPrice()) < 0) throw new NotEnoughMoneyException("Not enough money!");
 
         user.withdrawBalance(game.getPrice());
         user.addGame(game);
+        return true;
     }
 
     private final List<Game> catalogOfGames = new ArrayList<>();

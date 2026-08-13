@@ -30,7 +30,7 @@ public class AppRunner implements CommandLineRunner {
         storeService.addGameToCatalog(eldenRing);
 
         // Створюємо користувача
-        User dima = new User("kenzii", new BigDecimal("1000"));
+        User dima = new User("kenzii", new BigDecimal("500"));
         userService.addUser(dima);
 
         // Купуємо гру через UserService

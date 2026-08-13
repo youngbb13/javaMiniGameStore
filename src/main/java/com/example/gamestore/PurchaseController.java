@@ -32,9 +32,10 @@ public class PurchaseController {
         User user = userOpt.get();
         Game game = gameOpt.get();
 
-        userService.tryBuy(user, game);
+        String result = userService.tryBuy(user, game);
 
+        if (result.startsWith("Successfully")) return ResponseEntity.ok(result);
+        else return ResponseEntity.badRequest().body(result);
 
-        return ResponseEntity.ok(user.getNickname() + " bought successfully " + game + " for " + game.getPrice() + " " +user.getBalance());
     }
 }

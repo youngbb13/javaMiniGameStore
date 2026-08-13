@@ -3,6 +3,7 @@ package com.example.gamestore;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -33,9 +34,15 @@ public class GameController {
     }
 
     @PostMapping("/games")
-    public Game addGame(@RequestBody DigitalGame game) {
+    public ResponseEntity<Game> addGame(@RequestBody DigitalGame game) {
+
+        if (game.getTitle() == null || game.getTitle().isBlank())
+            return ResponseEntity.badRequest().build();
+        if (game.getPrice().compareTo(BigDecimal.ZERO) <= 0)
+            return ResponseEntity.badRequest().build();
+
         storeService.addGameToCatalog(game);
-        return game;
+        return ResponseEntity.ok(game);
     }
 
     @DeleteMapping("/games/{title}")
