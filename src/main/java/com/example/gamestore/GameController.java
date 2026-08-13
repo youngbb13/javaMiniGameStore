@@ -57,6 +57,12 @@ public class GameController {
 
     @PutMapping("/games/{title}")
     public ResponseEntity<Game> updateGame(@PathVariable String title, @RequestBody DigitalGame updatedGame) {
+
+        if (updatedGame.getTitle() == null || updatedGame.getTitle().isBlank())
+            return ResponseEntity.badRequest().build();
+        if (updatedGame.getPrice().compareTo(BigDecimal.ZERO) <= 0)
+            return ResponseEntity.badRequest().build();
+
         return storeService.updateGame(title, updatedGame)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

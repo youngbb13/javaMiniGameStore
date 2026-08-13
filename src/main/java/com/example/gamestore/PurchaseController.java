@@ -38,4 +38,11 @@ public class PurchaseController {
         else return ResponseEntity.badRequest().body(result);
 
     }
+
+    @GetMapping("/users/{nickname}/balance")
+    public ResponseEntity<?> getUserBalance(@PathVariable String nickname) {
+        return userService.findUserByNickname(nickname)
+                .map(user -> ResponseEntity.ok(user.getBalance()))
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
