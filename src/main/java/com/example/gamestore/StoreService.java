@@ -1,15 +1,20 @@
 package com.example.gamestore;
 
-import org.jspecify.annotations.NonNull;
-import org.springframework.http.ResponseEntity;
+import jakarta.persistence.Id;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.function.Predicate;
+
 import java.util.stream.Collectors;
 
 @Service
 public class StoreService {
+    private final GameRepository gameRepository;
+
+    public StoreService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
+
     public boolean buyGame(User user, Game game) throws NotEnoughMoneyException, GameAlreadyOwnedException {
         if (user.ownsGame(game)) throw new GameAlreadyOwnedException("You already own " + game.getTitle());
 
@@ -20,125 +25,37 @@ public class StoreService {
         return true;
     }
 
-    private final List<Game> catalogOfGames = new ArrayList<>();
-    private final Map<String, Game> gamesByTitle = new HashMap<>();
-
-    public void addGameToCatalog(Game game) {
-        gamesByTitle.put(game.getTitle(), game);
-        catalogOfGames.add(game);
+    public DigitalGame addGameToCatalog(DigitalGame game) {
+        return gameRepository.save(game);
     }
 
-    public void showCatalog() {
-        for (Game games : catalogOfGames) {
-            System.out.println(games.getTitle());
+    public List<DigitalGame> findGamesByGenre(Genre genre) {
+        return gameRepository.findByGenre(genre);
+    }
+
+    public List<DigitalGame> getAllGames() {
+        return gameRepository.findAll();
+    }
+
+    public Optional<DigitalGame> findGameByTitle(String title) {
+        return gameRepository.findByTitleIgnoreCase(title);
+    }
+
+    public boolean deleteGameById(Long id) {
+        if (gameRepository.existsById(id)) {
+            gameRepository.deleteById(id);
+            return true;
         }
+        return false;
     }
 
-    public Optional<Game> findGameByTitle(String title) {
-        return catalogOfGames.stream()
-                .filter(game -> game.getTitle().equalsIgnoreCase(title))
-                .findFirst();
-    }
-
-    public List<Game> findGamesByGenre(Genre genre) {
-        return catalogOfGames.stream()
-                .filter(game -> game.getGenre().equals(genre))
-                .collect(Collectors.toList());
-    }
-
-    public List<String> getAllGameTitles() {
-        return catalogOfGames.stream()
-                .map(Game::getTitle)
-                .collect(Collectors.toList());
-    }
-
-    public List<Game> sortGamesByPrice() {
-        return catalogOfGames.stream()
-                .sorted(Comparator.comparing(Game::getPrice))
-                .collect(Collectors.toList());
-    }
-
-    public Optional<Game> findGameByTitleFast(String title) {
-        return Optional.ofNullable(gamesByTitle.get(title));
-    }
-
-    public int countGamesMoreExpensiveThan(BigDecimal price) {
-        return (int) catalogOfGames.stream()
-                .filter(game -> game.getPrice().compareTo(price) > 0)
-                .count();
-    }
-
-    public Optional<Game> getMostExpensiveGame() {
-        return catalogOfGames.stream()
-                .filter(game -> game.getPrice() != null)
-                .max(Comparator.comparing(Game::getPrice));
-    }
-
-    public Map<Genre, Long> countGamesByGenre() {
-        return catalogOfGames.stream()
-                .collect(Collectors.groupingBy(Game::getGenre, Collectors.counting()));
-    }
-
-    public Map<Genre, List<Game>> getGamesGroupedByGenre() {
-        return catalogOfGames.stream()
-                .collect(Collectors.groupingBy(Game::getGenre));
-    }
-
-    public List<Game> sortGamesByTitle() {
-        return catalogOfGames.stream()
-                .sorted(Comparator.comparing(Game::getTitle))
-                .collect(Collectors.toList());
-    }
-
-    public List<Game> sortGamesByPriceDescending() {
-        return catalogOfGames.stream()
-                .sorted(Comparator.comparing(Game::getPrice).reversed())
-                .collect(Collectors.toList());
-    }
-
-    public List<Game> findGamesByCondition(Predicate<Game> condition) {
-        return catalogOfGames.stream()
-                .filter(condition)
-                .collect(Collectors.toList());
-    }
-
-    public OptionalDouble getAveragePriceByGenre(Genre genre) {
-        return catalogOfGames.stream()
-                .filter(game -> game.getGenre().equals(genre))
-                .mapToDouble(game -> game.getPrice().doubleValue()).average();
-    }
-
-    public List<Game> getTopMostExpensiveGames(int limit) {
-        return catalogOfGames.stream()
-                .sorted(Comparator.comparing(Game::getPrice).reversed())
-                .limit(limit)
-                .collect(Collectors.toList());
-    }
-
-    public Optional<Genre> getMostPopularGenre() {
-        Map<Genre, Long> countByGenre = catalogOfGames.stream()
-                .collect(Collectors.groupingBy(Game::getGenre, Collectors.counting()));
-        return countByGenre.entrySet().stream()
-                .max(Comparator.comparingLong(Map.Entry::getValue))
-                .map(Map.Entry::getKey);
-    }
-
-    public List<Game> getAllGames() {
-        return catalogOfGames;
-    }
-
-    public boolean deleteGameByTitle(String title) {
-        return catalogOfGames.removeIf(game -> game.getTitle().equalsIgnoreCase(title));
-    }
-
-    public Optional<Game> updateGame(String title, DigitalGame updatedGame) {
-        for (int i = 0; i < catalogOfGames.size(); i++) {
-            Game game = catalogOfGames.get(i);
-            if (game.getTitle().equalsIgnoreCase(title)) {
-                catalogOfGames.set(i, updatedGame);
-                return Optional.of(updatedGame);
-            }
-        }
-        return  Optional.empty();
+    public Optional<DigitalGame> updateGame(String title, DigitalGame updatedGame) {
+        return gameRepository.findByTitleIgnoreCase(title)
+                .map(existingGame -> {
+                    existingGame.setTitle(updatedGame.getTitle());
+                    existingGame.setPrice(updatedGame.getPrice());
+                    existingGame.setGenre(updatedGame.getGenre());
+                    return gameRepository.save(existingGame);
+                });
     }
 }

@@ -1,16 +1,34 @@
 package com.example.gamestore;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "games")
 public class DigitalGame implements Game, Comparable<Game> {
-    private final String title;
-    private final BigDecimal price;
-    private final Genre genre;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+    private BigDecimal price;
+
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
+
+    // Обов'язковий порожній конструктор для JPA
+    protected DigitalGame() {
+
+    }
 
     public DigitalGame(String title, BigDecimal price, Genre genre) {
         this.title = title;
         this.price = price;
         this.genre = genre;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override
@@ -23,6 +41,7 @@ public class DigitalGame implements Game, Comparable<Game> {
         return price;
     }
 
+    @Override
     public Genre getGenre() {
         return genre;
     }
@@ -50,11 +69,23 @@ public class DigitalGame implements Game, Comparable<Game> {
 
     @Override
     public int hashCode() {
-        return title.hashCode();
+        return title != null ? title.hashCode() : 0;
     }
 
     @Override
     public int compareTo(Game o) {
         return this.getPrice().compareTo(o.getPrice());
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }

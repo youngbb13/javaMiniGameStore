@@ -20,7 +20,7 @@ public class PurchaseController {
     public ResponseEntity<String> buyGame(@RequestParam String nickname, @RequestParam String gameTitle) {
 
         Optional<User> userOpt = userService.findUserByNickname(nickname);
-        Optional<Game> gameOpt = storeService.findGameByTitle(gameTitle);
+        Optional<DigitalGame> gameOpt = storeService.findGameByTitle(gameTitle);
 
         if (userOpt.isEmpty()) {
             return ResponseEntity.badRequest().body("User not found!");
@@ -30,7 +30,7 @@ public class PurchaseController {
         }
 
         User user = userOpt.get();
-        Game game = gameOpt.get();
+        DigitalGame game = gameOpt.get();
 
         String result = userService.tryBuy(user, game);
 

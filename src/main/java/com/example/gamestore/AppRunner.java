@@ -20,9 +20,9 @@ public class AppRunner implements CommandLineRunner {
         System.out.println("Spring Boot Game Store");
 
         // Створюємо ігри
-        Game cyberpunk = new DigitalGame("Cyberpunk 2077", new BigDecimal("159.99"), Genre.RPG);
-        Game cs2 = new DigitalGame("Counter-Strike 2", new BigDecimal("39.99"), Genre.FPS);
-        Game eldenRing = new DigitalGame("Elden Ring", new BigDecimal("59.99"), Genre.RPG);
+        DigitalGame cyberpunk = new DigitalGame("Cyberpunk 2077", new BigDecimal("159.99"), Genre.RPG);
+        DigitalGame cs2 = new DigitalGame("Counter-Strike 2", new BigDecimal("39.99"), Genre.FPS);
+        DigitalGame eldenRing = new DigitalGame("Elden Ring", new BigDecimal("59.99"), Genre.RPG);
 
         // Додаємо в каталог
         storeService.addGameToCatalog(cyberpunk);

@@ -17,24 +17,24 @@ public class GameController {
     }
 
     @GetMapping("/games")
-    public List<Game> getAllGames() {
+    public List<DigitalGame> getAllGames() {
         return storeService.getAllGames();
     }
 
     @GetMapping("/games/genre/{genre}")
-    public List<Game> getGamesByGenre(@PathVariable Genre genre) {
+    public List<DigitalGame> getGamesByGenre(@PathVariable Genre genre) {
         return storeService.findGamesByGenre(genre);
     }
 
     @GetMapping("/games/{title}")
-    public ResponseEntity<Game> getGameByTitle(@PathVariable String title) {
+    public ResponseEntity<DigitalGame> getGameByTitle(@PathVariable String title) {
         return storeService.findGameByTitle(title)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/games")
-    public ResponseEntity<Game> addGame(@RequestBody DigitalGame game) {
+    public ResponseEntity<DigitalGame> addGame(@RequestBody DigitalGame game) {
 
         if (game.getTitle() == null || game.getTitle().isBlank())
             return ResponseEntity.badRequest().build();
@@ -45,9 +45,9 @@ public class GameController {
         return ResponseEntity.ok(game);
     }
 
-    @DeleteMapping("/games/{title}")
-    public ResponseEntity<Void> deleteGame(@PathVariable String title) {
-        boolean deleted = storeService.deleteGameByTitle(title);
+    @DeleteMapping("/games/{id}")
+    public ResponseEntity<Void> deleteGame(@PathVariable Long id) {
+        boolean deleted = storeService.deleteGameById(id);
         if (deleted) {
             return ResponseEntity.noContent().build();
         } else {
@@ -56,7 +56,7 @@ public class GameController {
     }
 
     @PutMapping("/games/{title}")
-    public ResponseEntity<Game> updateGame(@PathVariable String title, @RequestBody DigitalGame updatedGame) {
+    public ResponseEntity<DigitalGame> updateGame(@PathVariable String title, @RequestBody DigitalGame updatedGame) {
 
         if (updatedGame.getTitle() == null || updatedGame.getTitle().isBlank())
             return ResponseEntity.badRequest().build();
