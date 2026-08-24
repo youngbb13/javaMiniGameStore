@@ -15,7 +15,7 @@ public class StoreService {
         this.gameRepository = gameRepository;
     }
 
-    public boolean buyGame(User user, Game game) throws NotEnoughMoneyException, GameAlreadyOwnedException {
+    public boolean buyGame(User user, DigitalGame game) throws NotEnoughMoneyException, GameAlreadyOwnedException {
         if (user.ownsGame(game)) throw new GameAlreadyOwnedException("You already own " + game.getTitle());
 
         if (user.getBalance().compareTo(game.getPrice()) < 0) throw new NotEnoughMoneyException("Not enough money!");

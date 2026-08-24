@@ -1,20 +1,38 @@
 package com.example.gamestore;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "users")
 public class User {
-    private final String nickname;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    protected User() {
+
+    }
+
+    private String nickname;
     private BigDecimal balance;
-    private final Set<Game> gamesLibrary = new HashSet<>();
+
+    @Transient
+    private Set<DigitalGame> gamesLibrary = new HashSet<>();
+
+    public Long getId() {
+        return id;
+    }
 
     public User(String nickname, BigDecimal balance) {
         this.nickname = nickname;
         this.balance = balance;
     }
 
-    public Set<Game> getGamesLibrary() {
+    public Set<DigitalGame> getGamesLibrary() {
         return gamesLibrary;
     }
 
@@ -26,18 +44,18 @@ public class User {
         return balance;
     }
 
-    void addGame(Game game) {
+    void addGame(DigitalGame game) {
         gamesLibrary.add(game);
     }
 
     public void showLibrary() {
-        for (Game games : gamesLibrary) {
+        for (DigitalGame games : gamesLibrary) {
             System.out.println(games.getTitle());
         }
     }
 
     public void playGame(String title) {
-        for (Game game : gamesLibrary) {
+        for (DigitalGame game : gamesLibrary) {
             if (game.getTitle().equals(title)) {
                 game.play();
                 return;
@@ -54,7 +72,7 @@ public class User {
         balance = balance.subtract(amount);
     }
 
-    public boolean ownsGame(Game game) {
+    public boolean ownsGame(DigitalGame game) {
         return gamesLibrary.contains(game);
     }
 }

@@ -32,13 +32,5 @@ public class AppRunner implements CommandLineRunner {
         // Створюємо користувача
         User dima = new User("kenzii", new BigDecimal("500"));
         userService.addUser(dima);
-
-        // Купуємо гру через UserService
-        userService.tryBuy(dima, cs2);
-
-        // Показуємо результат
-        System.out.println("Balance: " + dima.getBalance());
-        System.out.println("Library:");
-        dima.showLibrary();
     }
 }

@@ -34,7 +34,7 @@ public class UserService {
 //            System.out.println(e.getMessage());
 //        }
 //    }
-    public String tryBuy(User user, Game game) {
+    public String tryBuy(User user, DigitalGame game) {
         try {
             storeService.buyGame(user, game);
             return "Successfully bought " + game.getTitle();
