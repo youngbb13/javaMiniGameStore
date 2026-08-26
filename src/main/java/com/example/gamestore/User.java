@@ -20,7 +20,12 @@ public class User {
     private String nickname;
     private BigDecimal balance;
 
-    @Transient
+    @ManyToMany
+    @JoinTable(
+            name = "user_games",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_id")
+    )
     private Set<DigitalGame> gamesLibrary = new HashSet<>();
 
     public Long getId() {

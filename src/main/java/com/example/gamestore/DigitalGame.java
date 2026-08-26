@@ -2,6 +2,8 @@ package com.example.gamestore;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "games")
@@ -20,6 +22,9 @@ public class DigitalGame implements Game, Comparable<Game> {
     protected DigitalGame() {
 
     }
+
+    @ManyToMany(mappedBy = "gamesLibrary")
+    private Set<User> owners = new HashSet<>();
 
     public DigitalGame(String title, BigDecimal price, Genre genre) {
         this.title = title;
