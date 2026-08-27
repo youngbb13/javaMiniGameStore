@@ -1,5 +1,6 @@
 package com.example.gamestore;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -23,6 +24,7 @@ public class DigitalGame implements Game, Comparable<Game> {
 
     }
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "gamesLibrary")
     private Set<User> owners = new HashSet<>();
 

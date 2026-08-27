@@ -53,6 +53,10 @@ public class User {
         gamesLibrary.add(game);
     }
 
+    void addBalance(BigDecimal amount) {
+        balance = balance.add(amount);
+    }
+
     public void showLibrary() {
         for (DigitalGame games : gamesLibrary) {
             System.out.println(games.getTitle());

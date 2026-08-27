@@ -19,6 +19,11 @@ public class AppRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("Spring Boot Game Store");
 
+        if (!storeService.getAllGames().isEmpty()) {
+            System.out.println("Data already exists, skip loading");
+            return;
+        }
+
         // Створюємо ігри
         DigitalGame cyberpunk = new DigitalGame("Cyberpunk 2077", new BigDecimal("159.99"), Genre.RPG);
         DigitalGame cs2 = new DigitalGame("Counter-Strike 2", new BigDecimal("39.99"), Genre.FPS);
@@ -30,7 +35,11 @@ public class AppRunner implements CommandLineRunner {
         storeService.addGameToCatalog(eldenRing);
 
         // Створюємо користувача
-        User dima = new User("kenzii", new BigDecimal("500"));
-        userService.addUser(dima);
+        if (userService.findUserByNickname("kenzii").isEmpty()) {
+            User dima = new User("kenzii", new BigDecimal("500"));
+            userService.addUser(dima);
+        }
+
+        System.out.println("Initial data loaded");
     }
 }
