@@ -3,11 +3,13 @@ package com.example.gamestore;
 import java.math.BigDecimal;
 
 public class GameDto {
+    private Long id;
     private String title;
     private BigDecimal price;
     private Genre genre;
 
-    public GameDto(String title, BigDecimal price, Genre genre) {
+    public GameDto(Long id, String title, BigDecimal price, Genre genre) {
+        this.id = id;
         this.title = title;
         this.price = price;
         this.genre = genre;
@@ -23,5 +25,9 @@ public class GameDto {
 
     public Genre getGenre() {
         return genre;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

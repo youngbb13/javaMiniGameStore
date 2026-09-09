@@ -1,11 +1,9 @@
 package com.example.gamestore;
 
-import jakarta.persistence.Id;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
+import org.springframework.data.domain.Pageable;
 import java.util.*;
-
-import java.util.stream.Collectors;
 
 @Service
 public class StoreService {
@@ -57,5 +55,14 @@ public class StoreService {
                     existingGame.setGenre(updatedGame.getGenre());
                     return gameRepository.save(existingGame);
                 });
+    }
+
+    public List<DigitalGame> findGameByHalfTitleIgnoreCase(String title) {
+        return gameRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    public List<DigitalGame> getAllGames(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return gameRepository.findAll(pageable).getContent();
     }
 }

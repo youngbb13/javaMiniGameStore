@@ -17,18 +17,25 @@ public class GameController {
     }
 
     @GetMapping("/games")
-    public List<DigitalGame> getAllGames() {
-        return storeService.getAllGames();
+    public List<GameDto> getAllGames(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return storeService.getAllGames(page, size)
+                .stream()
+                .map(GameMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/games/genre/{genre}")
-    public List<DigitalGame> getGamesByGenre(@PathVariable Genre genre) {
-        return storeService.findGamesByGenre(genre);
+    public List<GameDto> getGamesByGenre(@PathVariable Genre genre) {
+        return storeService.findGamesByGenre(genre)
+                .stream()
+                .map(GameMapper::toDto)
+                .toList();
     }
 
     @GetMapping("/games/{title}")
-    public ResponseEntity<DigitalGame> getGameByTitle(@PathVariable String title) {
+    public ResponseEntity<GameDto> getGameByTitle(@PathVariable String title) {
         return storeService.findGameByTitle(title)
+                .map(GameMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -73,5 +80,13 @@ public class GameController {
         return userService.findUserByNickname(nickname)
                 .map(user -> ResponseEntity.ok(user.getGamesLibrary()))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/games/search")
+    public List<GameDto> searchGames(@RequestParam String title) {
+        return storeService.findGameByHalfTitleIgnoreCase(title)
+                .stream()
+                .map(GameMapper::toDto)
+                .toList();
     }
 }

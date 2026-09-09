@@ -10,6 +10,5 @@ import java.util.Optional;
 public interface GameRepository extends JpaRepository<DigitalGame, Long> {
     Optional<DigitalGame> findByTitleIgnoreCase(String title);
     List<DigitalGame> findByGenre(Genre genre);
-
-    Long id(Long id);
+    List<DigitalGame> findByTitleContainingIgnoreCase(String title);
 }
