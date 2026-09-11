@@ -1,10 +1,7 @@
 package com.example.gamestore;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
@@ -35,5 +32,19 @@ public class UserController {
         } catch (InvalidAmountException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/users/{nickname}/library")
+    public ResponseEntity<?> getUserLibrary(@PathVariable String nickname) {
+        return userService.findUserByNickname(nickname)
+                .map(user -> ResponseEntity.ok(user.getGamesLibrary()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/users/{nickname}/balance")
+    public ResponseEntity<?> getUserBalance(@PathVariable String nickname) {
+        return userService.findUserByNickname(nickname)
+                .map(user -> ResponseEntity.ok(user.getBalance()))
+                .orElse(ResponseEntity.notFound().build());
     }
 }

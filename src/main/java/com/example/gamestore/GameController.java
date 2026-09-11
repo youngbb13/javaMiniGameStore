@@ -9,11 +9,9 @@ import java.util.List;
 @RestController
 public class GameController {
     private final StoreService storeService;
-    private final UserService userService;
 
-    public GameController(StoreService storeService, UserService userService) {
+    public GameController(StoreService storeService) {
         this.storeService = storeService;
-        this.userService = userService;
     }
 
     @GetMapping("/games")
@@ -72,13 +70,6 @@ public class GameController {
 
         return storeService.updateGame(title, updatedGame)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/users/{nickname}/library")
-    public ResponseEntity<?> getUserLibrary(@PathVariable String nickname) {
-        return userService.findUserByNickname(nickname)
-                .map(user -> ResponseEntity.ok(user.getGamesLibrary()))
                 .orElse(ResponseEntity.notFound().build());
     }
 
