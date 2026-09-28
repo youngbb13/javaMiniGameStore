@@ -38,7 +38,10 @@ public class UserController {
     @GetMapping("/users/{nickname}/library")
     public ResponseEntity<?> getUserLibrary(@PathVariable String nickname) {
         return userService.findUserByNickname(nickname)
-                .map(user -> ResponseEntity.ok(user.getGamesLibrary()))
+                .map(user -> user.getGamesLibrary().stream()
+                        .map(GameMapper::toDto)
+                        .toList())
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
