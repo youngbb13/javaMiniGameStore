@@ -25,4 +25,22 @@ class UserTest {
 
         assertEquals(new BigDecimal("60"), user.getBalance());
     }
+
+    @Test
+    void addBalance_increasesBalance() {
+        User user = new User("kenzii", new BigDecimal("100"));
+
+        user.addBalance(new BigDecimal("50"));
+
+        assertEquals(new BigDecimal("150"), user.getBalance());
+    }
+
+    @Test
+    void addBalance_invalidAmount_throwsException() {
+        User user = new User("kenzii", new BigDecimal("100"));
+
+        assertThrows(InvalidAmountException.class, () -> {
+            user.addBalance(BigDecimal.ZERO);
+        });
+    }
 }

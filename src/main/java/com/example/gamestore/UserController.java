@@ -20,13 +20,14 @@ public class UserController {
         }
         User user = new User(nickname, balance);
         userService.addUser(user);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(UserMapper.toDto(user));
     }
 
     @PostMapping("/users/{nickname}/funds")
     public ResponseEntity<?> addFundsToBalance(@PathVariable String nickname, @RequestParam BigDecimal amount) {
         try {
             return userService.addFunds(nickname, amount)
+                    .map(UserMapper::toDto)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
         } catch (InvalidAmountException e) {
@@ -44,7 +45,7 @@ public class UserController {
     @GetMapping("/users/{nickname}/balance")
     public ResponseEntity<?> getUserBalance(@PathVariable String nickname) {
         return userService.findUserByNickname(nickname)
-                .map(user -> ResponseEntity.ok(user.getBalance()))
+                .map(user -> ResponseEntity.ok(UserMapper.toDto(user).getBalance()))
                 .orElse(ResponseEntity.notFound().build());
     }
 }
