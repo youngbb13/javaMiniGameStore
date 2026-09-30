@@ -13,6 +13,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 // Тестуємо лише UserController, не весь додаток і не базу
 @WebMvcTest(UserController.class)
@@ -58,5 +60,52 @@ class UserControllerTest {
                         .param("balance", "300"))
                 // then: статус 400, бо гілка "User already exists"
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getUserBalance_whenUserExists_returnsBalance() throws Exception {
+        // given: сервіс знаходить юзера з балансом 500
+        when(userService.findUserByNickname("kenzii"))
+                .thenReturn(Optional.of(new User("kenzii", new BigDecimal("500"))));
+
+        // when: GET /users/kenzii/balance
+        mockMvc.perform(get("/users/kenzii/balance"))
+                // then
+                .andExpect(status().isOk())
+                .andExpect(content().string("500"));
+    }
+
+    @Test
+    void getUserBalance_whenUserDoesNotExist_returnsNotFound() throws Exception {
+        // given: такого юзера немає
+        when(userService.findUserByNickname("unknown"))
+                .thenReturn(Optional.empty());
+
+        // when
+        mockMvc.perform(get("/users/unknown/balance"))
+                // then: 404
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void addFunds_whenUserExists_returnsBalance() throws Exception {
+        when(userService.addFunds("kenzii", new BigDecimal("100")))
+                .thenReturn(Optional.of(new User("kenzii", new BigDecimal("600"))));
+
+        mockMvc.perform(post("/users/kenzii/funds")
+                .param("amount", "100"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nickname").value("kenzii"))
+                .andExpect(jsonPath("$.balance").value(600));
+    }
+
+    @Test
+    void addFunds_whenUserDoesNotExists_returnsNotFound() throws Exception {
+        when(userService.addFunds("unknown", new BigDecimal("100")))
+                .thenReturn(Optional.empty());
+
+        mockMvc.perform(post("/users/unknown/funds")
+                .param("amount", "100"))
+                .andExpect(status().isNotFound());
     }
 }
