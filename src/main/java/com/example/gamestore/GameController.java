@@ -1,5 +1,6 @@
 package com.example.gamestore;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,13 +40,7 @@ public class GameController {
     }
 
     @PostMapping("/games")
-    public ResponseEntity<DigitalGame> addGame(@RequestBody DigitalGame game) {
-
-        if (game.getTitle() == null || game.getTitle().isBlank())
-            return ResponseEntity.badRequest().build();
-        if (game.getPrice().compareTo(BigDecimal.ZERO) <= 0)
-            return ResponseEntity.badRequest().build();
-
+    public ResponseEntity<DigitalGame> addGame(@Valid @RequestBody DigitalGame game) {
         storeService.addGameToCatalog(game);
         return ResponseEntity.ok(game);
     }

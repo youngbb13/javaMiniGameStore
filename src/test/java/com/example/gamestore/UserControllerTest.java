@@ -108,4 +108,16 @@ class UserControllerTest {
                 .param("amount", "100"))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void addFunds_whenAmountInvalid_returnBadRequest() throws Exception {
+        when(userService.addFunds("kenzii", BigDecimal.ZERO))
+                .thenThrow(new InvalidAmountException("Amount must be greater than 0"));
+
+        mockMvc.perform(post("/users/kenzii/funds")
+                .param("amount", "0"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Amount must be greater than 0"))
+                .andExpect(jsonPath("$.status").value(400));
+    }
 }

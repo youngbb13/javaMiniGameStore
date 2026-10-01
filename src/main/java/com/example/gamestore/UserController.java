@@ -25,14 +25,10 @@ public class UserController {
 
     @PostMapping("/users/{nickname}/funds")
     public ResponseEntity<?> addFundsToBalance(@PathVariable String nickname, @RequestParam BigDecimal amount) {
-        try {
-            return userService.addFunds(nickname, amount)
-                    .map(UserMapper::toDto)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (InvalidAmountException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return userService.addFunds(nickname, amount)
+                .map(UserMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/users/{nickname}/library")
