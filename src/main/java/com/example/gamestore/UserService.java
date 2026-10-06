@@ -1,5 +1,6 @@
 package com.example.gamestore;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -34,13 +35,9 @@ public class UserService {
         return userRepository.findByNicknameIgnoreCase(nickname);
     }
 
-    public String tryBuy(User user, DigitalGame game) {
-        try {
+    @Transactional
+    public void tryBuy(User user, DigitalGame game) throws NotEnoughMoneyException, GameAlreadyOwnedException {
             storeService.buyGame(user, game);
             userRepository.save(user);
-            return "Successfully bought " + game.getTitle();
-        } catch (Exception e) {
-            return e.getMessage();
-        }
     }
 }

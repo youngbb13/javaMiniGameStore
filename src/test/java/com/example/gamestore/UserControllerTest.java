@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // Тестуємо лише UserController, не весь додаток і не базу
 @WebMvcTest(UserController.class)
-class UserControllerTest {
+public class UserControllerTest {
 
     // Spring сам створить MockMvc і покладе сюди
     @Autowired

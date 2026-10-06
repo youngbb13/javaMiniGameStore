@@ -17,7 +17,7 @@ public class PurchaseController {
     }
 
     @PostMapping("/buy")
-    public ResponseEntity<String> buyGame(@RequestParam String nickname, @RequestParam String gameTitle) {
+    public ResponseEntity<String> buyGame(@RequestParam String nickname, @RequestParam String gameTitle) throws NotEnoughMoneyException, GameAlreadyOwnedException {
 
         Optional<User> userOpt = userService.findUserByNickname(nickname);
         Optional<DigitalGame> gameOpt = storeService.findGameByTitle(gameTitle);
@@ -32,10 +32,9 @@ public class PurchaseController {
         User user = userOpt.get();
         DigitalGame game = gameOpt.get();
 
-        String result = userService.tryBuy(user, game);
+        userService.tryBuy(user, game);
 
-        if (result.startsWith("Successfully")) return ResponseEntity.ok(result);
-        else return ResponseEntity.badRequest().body(result);
-
+        return ResponseEntity.ok(user.getNickname() + " bought " + game.getTitle()
+                + ". Balance: " + user.getBalance());
     }
 }
