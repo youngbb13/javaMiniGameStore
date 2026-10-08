@@ -1,4 +1,6 @@
-package com.example.gamestore;
+package com.example.gamestore.dto;
+
+import com.example.gamestore.entity.User;
 
 public class UserMapper {
     public static UserDto toDto(User user) {

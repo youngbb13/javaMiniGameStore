@@ -1,5 +1,11 @@
-package com.example.gamestore;
+package com.example.gamestore.controller;
 
+import com.example.gamestore.exception.GameAlreadyOwnedException;
+import com.example.gamestore.exception.NotEnoughMoneyException;
+import com.example.gamestore.entity.DigitalGame;
+import com.example.gamestore.entity.User;
+import com.example.gamestore.service.StoreService;
+import com.example.gamestore.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

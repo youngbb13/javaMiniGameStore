@@ -1,5 +1,10 @@
-package com.example.gamestore;
+package com.example.gamestore.controller;
 
+import com.example.gamestore.dto.GameDto;
+import com.example.gamestore.dto.GameMapper;
+import com.example.gamestore.entity.DigitalGame;
+import com.example.gamestore.entity.Genre;
+import com.example.gamestore.service.StoreService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

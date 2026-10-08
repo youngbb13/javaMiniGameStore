@@ -1,5 +1,11 @@
-package com.example.gamestore;
+package com.example.gamestore.service;
 
+import com.example.gamestore.exception.GameAlreadyOwnedException;
+import com.example.gamestore.exception.InvalidAmountException;
+import com.example.gamestore.exception.NotEnoughMoneyException;
+import com.example.gamestore.entity.DigitalGame;
+import com.example.gamestore.entity.User;
+import com.example.gamestore.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,7 @@
-package com.example.gamestore;
+package com.example.gamestore.entity;
 
+import com.example.gamestore.exception.InvalidAmountException;
+import com.example.gamestore.exception.NotEnoughMoneyException;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -49,11 +51,11 @@ public class User {
         return balance;
     }
 
-    void addGame(DigitalGame game) {
+    public void addGame(DigitalGame game) {
         gamesLibrary.add(game);
     }
 
-    void addBalance(BigDecimal amount) {
+    public void addBalance(BigDecimal amount) {
         balance = balance.add(amount);
     }
 

@@ -1,5 +1,11 @@
-package com.example.gamestore;
+package com.example.gamestore.service;
 
+import com.example.gamestore.exception.GameAlreadyOwnedException;
+import com.example.gamestore.exception.NotEnoughMoneyException;
+import com.example.gamestore.entity.DigitalGame;
+import com.example.gamestore.entity.Genre;
+import com.example.gamestore.entity.User;
+import com.example.gamestore.repository.GameRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;

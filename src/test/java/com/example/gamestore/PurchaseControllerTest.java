@@ -1,5 +1,12 @@
 package com.example.gamestore;
 
+import com.example.gamestore.controller.PurchaseController;
+import com.example.gamestore.entity.DigitalGame;
+import com.example.gamestore.entity.Genre;
+import com.example.gamestore.entity.User;
+import com.example.gamestore.exception.NotEnoughMoneyException;
+import com.example.gamestore.service.StoreService;
+import com.example.gamestore.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;

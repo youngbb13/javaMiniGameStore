@@ -1,5 +1,6 @@
-package com.example.gamestore;
+package com.example.gamestore.repository;
 
+import com.example.gamestore.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

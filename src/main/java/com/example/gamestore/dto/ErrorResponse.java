@@ -1,4 +1,4 @@
-package com.example.gamestore;
+package com.example.gamestore.dto;
 
 public class ErrorResponse {
     private String message;

@@ -1,4 +1,4 @@
-package com.example.gamestore;
+package com.example.gamestore.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

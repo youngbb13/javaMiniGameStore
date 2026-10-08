@@ -1,5 +1,6 @@
-package com.example.gamestore;
+package com.example.gamestore.exception;
 
+import com.example.gamestore.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,5 +1,8 @@
 package com.example.gamestore;
 
+import com.example.gamestore.dto.UserDto;
+import com.example.gamestore.dto.UserMapper;
+import com.example.gamestore.entity.User;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

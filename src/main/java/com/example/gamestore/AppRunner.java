@@ -1,5 +1,10 @@
 package com.example.gamestore;
 
+import com.example.gamestore.entity.DigitalGame;
+import com.example.gamestore.entity.Genre;
+import com.example.gamestore.entity.User;
+import com.example.gamestore.service.StoreService;
+import com.example.gamestore.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

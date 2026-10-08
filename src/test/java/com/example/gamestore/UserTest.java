@@ -1,5 +1,8 @@
 package com.example.gamestore;
 
+import com.example.gamestore.entity.User;
+import com.example.gamestore.exception.InvalidAmountException;
+import com.example.gamestore.exception.NotEnoughMoneyException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

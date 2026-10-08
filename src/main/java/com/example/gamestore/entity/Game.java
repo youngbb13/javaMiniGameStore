@@ -1,4 +1,4 @@
-package com.example.gamestore;
+package com.example.gamestore.entity;
 
 import java.math.BigDecimal;
 

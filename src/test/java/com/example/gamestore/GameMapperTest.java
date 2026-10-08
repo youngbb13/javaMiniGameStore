@@ -1,5 +1,9 @@
 package com.example.gamestore;
 
+import com.example.gamestore.dto.GameDto;
+import com.example.gamestore.dto.GameMapper;
+import com.example.gamestore.entity.DigitalGame;
+import com.example.gamestore.entity.Genre;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

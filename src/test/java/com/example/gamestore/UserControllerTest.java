@@ -1,5 +1,9 @@
 package com.example.gamestore;
 
+import com.example.gamestore.controller.UserController;
+import com.example.gamestore.entity.User;
+import com.example.gamestore.exception.InvalidAmountException;
+import com.example.gamestore.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
