@@ -56,6 +56,8 @@ public class User {
     }
 
     public void addBalance(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) throw new InvalidAmountException("Amount must be greater than 0");
+
         balance = balance.add(amount);
     }
 
