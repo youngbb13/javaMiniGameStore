@@ -5,6 +5,7 @@ import com.example.gamestore.exception.InvalidAmountException;
 import com.example.gamestore.exception.NotEnoughMoneyException;
 import com.example.gamestore.entity.DigitalGame;
 import com.example.gamestore.entity.User;
+import com.example.gamestore.exception.NotFoundException;
 import com.example.gamestore.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,18 @@ public class UserService {
 
     @Transactional
     public void tryBuy(User user, DigitalGame game) throws NotEnoughMoneyException, GameAlreadyOwnedException {
-            storeService.buyGame(user, game);
-            userRepository.save(user);
+        storeService.buyGame(user, game);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public User buyGame(String nickname, String gameTitle) throws NotEnoughMoneyException, GameAlreadyOwnedException {
+        User user = findUserByNickname(nickname)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+        DigitalGame game = storeService.findGameByTitle(gameTitle)
+                .orElseThrow(() -> new NotFoundException("Game not found"));
+
+        tryBuy(user, game);
+        return user;
     }
 }

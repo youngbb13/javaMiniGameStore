@@ -28,4 +28,10 @@ public class GlobalExceptionHandler {
         ErrorResponse body = new ErrorResponse(e.getMessage(), 400);
         return ResponseEntity.badRequest().body(body);
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(NotFoundException e) {
+        ErrorResponse body = new ErrorResponse(e.getMessage(), 404);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+    }
 }
