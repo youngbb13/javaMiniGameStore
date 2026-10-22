@@ -4,6 +4,7 @@ import com.example.gamestore.controller.PurchaseController;
 import com.example.gamestore.entity.DigitalGame;
 import com.example.gamestore.entity.Genre;
 import com.example.gamestore.entity.User;
+import com.example.gamestore.exception.GameAlreadyOwnedException;
 import com.example.gamestore.exception.NotEnoughMoneyException;
 import com.example.gamestore.exception.NotFoundException;
 import com.example.gamestore.service.StoreService;
@@ -59,12 +60,24 @@ public class PurchaseControllerTest {
     @Test
     void buyGame_whenGameNotFound_returns404() throws Exception {
         when(userService.buyGame("kenzii", "Elden Ring"))
-                .thenThrow(new NotFoundException("Game not found"));
+                .thenThrow(new NotFoundException("Game not found!"));
 
         mockMvc.perform(post("/buy")
                         .param("nickname", "kenzii")
                         .param("gameTitle", "Elden Ring"))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("Game not found"));
+                .andExpect(jsonPath("$.message").value("Game not found!"));
+    }
+
+    @Test
+    void buyGame_whenGameAlreadyOwned_returnsBadRequest() throws Exception {
+        when(userService.buyGame("kenzii", "Elden Ring"))
+                .thenThrow(new GameAlreadyOwnedException("Game already owned!"));
+
+        mockMvc.perform(post("/buy")
+                        .param("nickname", "kenzii")
+                        .param("gameTitle", "Elden Ring"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Game already owned!"));
     }
 }
