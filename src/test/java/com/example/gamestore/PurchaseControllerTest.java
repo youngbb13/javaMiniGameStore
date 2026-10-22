@@ -32,15 +32,10 @@ public class PurchaseControllerTest {
     @MockitoBean
     UserService userService;
 
-    @MockitoBean
-    StoreService storeService;
-
     @Test
     void buyGame_whenGameAndUserExist_returnsOk() throws Exception {
-        when(userService.findUserByNickname("kenzii"))
-                .thenReturn(Optional.of(new User("kenzii", new BigDecimal("500"))));
-        when(storeService.findGameByTitle("Elden Ring"))
-                .thenReturn(Optional.of(new DigitalGame("Elden Ring", new BigDecimal("60"), Genre.RPG)));
+        when(userService.buyGame("kenzii", "Elden Ring"))
+                .thenReturn(new User("kenzii", new BigDecimal("500")));
 
         mockMvc.perform(post("/buy")
                         .param("nickname", "kenzii")
@@ -50,12 +45,8 @@ public class PurchaseControllerTest {
 
     @Test
     void buyGame_whenNotEnoughMoney_returnsBadRequest() throws Exception {
-        when(userService.findUserByNickname("kenzii"))
-                .thenReturn(Optional.of(new User("kenzii", new BigDecimal("500"))));
-        when(storeService.findGameByTitle("Elden Ring"))
-                .thenReturn(Optional.of(new DigitalGame("Elden Ring", new BigDecimal("60"), Genre.RPG)));
-        doThrow(new NotEnoughMoneyException("Not enough money!"))
-                .when(userService).tryBuy(any(), any());
+        when(userService.buyGame("kenzii", "Elden Ring"))
+                .thenThrow(new NotEnoughMoneyException("Not enough money!"));
 
         mockMvc.perform(post("/buy")
                         .param("nickname", "kenzii")
