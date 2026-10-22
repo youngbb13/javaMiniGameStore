@@ -5,6 +5,7 @@ import com.example.gamestore.entity.DigitalGame;
 import com.example.gamestore.entity.Genre;
 import com.example.gamestore.entity.User;
 import com.example.gamestore.exception.NotEnoughMoneyException;
+import com.example.gamestore.exception.NotFoundException;
 import com.example.gamestore.service.StoreService;
 import com.example.gamestore.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -53,5 +54,17 @@ public class PurchaseControllerTest {
                         .param("gameTitle", "Elden Ring"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Not enough money!"));
+    }
+
+    @Test
+    void buyGame_whenGameNotFound_returns404() throws Exception {
+        when(userService.buyGame("kenzii", "Elden Ring"))
+                .thenThrow(new NotFoundException("Game not found"));
+
+        mockMvc.perform(post("/buy")
+                        .param("nickname", "kenzii")
+                        .param("gameTitle", "Elden Ring"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Game not found"));
     }
 }
