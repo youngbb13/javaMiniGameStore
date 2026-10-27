@@ -3,6 +3,8 @@ package com.example.gamestore.entity;
 import com.example.gamestore.exception.InvalidAmountException;
 import com.example.gamestore.exception.NotEnoughMoneyException;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -19,7 +21,12 @@ public class User {
 
     }
 
+    @Column(unique = true, nullable = false)
+    @NotBlank
     private String nickname;
+
+    @Column(nullable = false)
+    @NotNull
     private BigDecimal balance;
 
     @ManyToMany

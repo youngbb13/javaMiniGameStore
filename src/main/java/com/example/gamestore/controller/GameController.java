@@ -4,12 +4,12 @@ import com.example.gamestore.dto.GameDto;
 import com.example.gamestore.dto.GameMapper;
 import com.example.gamestore.entity.DigitalGame;
 import com.example.gamestore.entity.Genre;
+import com.example.gamestore.exception.GameAlreadyExistsException;
 import com.example.gamestore.service.StoreService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController

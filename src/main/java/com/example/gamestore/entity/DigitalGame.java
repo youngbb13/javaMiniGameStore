@@ -17,9 +17,11 @@ public class DigitalGame implements Game, Comparable<Game> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     @NotBlank
     private String title;
 
+    @Column(nullable = false)
     @NotNull
     @Positive
     private BigDecimal price;

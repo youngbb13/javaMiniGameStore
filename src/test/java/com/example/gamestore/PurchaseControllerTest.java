@@ -7,7 +7,6 @@ import com.example.gamestore.entity.User;
 import com.example.gamestore.exception.GameAlreadyOwnedException;
 import com.example.gamestore.exception.NotEnoughMoneyException;
 import com.example.gamestore.exception.NotFoundException;
-import com.example.gamestore.service.StoreService;
 import com.example.gamestore.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

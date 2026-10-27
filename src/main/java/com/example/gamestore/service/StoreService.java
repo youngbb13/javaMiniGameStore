@@ -1,5 +1,6 @@
 package com.example.gamestore.service;
 
+import com.example.gamestore.exception.GameAlreadyExistsException;
 import com.example.gamestore.exception.GameAlreadyOwnedException;
 import com.example.gamestore.exception.NotEnoughMoneyException;
 import com.example.gamestore.entity.DigitalGame;
@@ -30,8 +31,12 @@ public class StoreService {
     }
 
     public DigitalGame addGameToCatalog(DigitalGame game) {
+        if (gameRepository.findByTitleIgnoreCase(game.getTitle()).isPresent()) {
+            throw new GameAlreadyExistsException("Game already exists " + game.getTitle());
+        }
         return gameRepository.save(game);
     }
+
 
     public List<DigitalGame> findGamesByGenre(Genre genre) {
         return gameRepository.findByGenre(genre);
